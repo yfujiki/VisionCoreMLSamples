@@ -10,9 +10,17 @@ import UIKit
 
 class DeeplabV3ViewController: UIViewController {
 
+    @IBOutlet weak var captureView: CameraCaptureView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        captureView.prepareCapture()
+        captureView.startCapture()
+    }
+
+    deinit {
+        captureView.endCapture()
     }
 }
 

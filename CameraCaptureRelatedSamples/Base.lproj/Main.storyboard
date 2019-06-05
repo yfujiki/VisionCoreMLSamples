@@ -126,13 +126,28 @@
                     <view key="view" contentMode="scaleToFill" id="k8Z-kK-dMC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="naQ-h3-K28" customClass="CameraCaptureView" customModule="CameraCaptureRelatedSamples" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3In-Ng-u66" firstAttribute="top" secondItem="naQ-h3-K28" secondAttribute="top" id="6Um-Vz-SjV"/>
+                            <constraint firstItem="naQ-h3-K28" firstAttribute="bottom" secondItem="3In-Ng-u66" secondAttribute="bottom" id="Grz-8Q-I6z"/>
+                            <constraint firstItem="naQ-h3-K28" firstAttribute="leading" secondItem="3In-Ng-u66" secondAttribute="leading" id="QMu-qD-Akw"/>
+                            <constraint firstItem="3In-Ng-u66" firstAttribute="trailing" secondItem="naQ-h3-K28" secondAttribute="trailing" id="VLc-wu-wuF"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="3In-Ng-u66"/>
                     </view>
+                    <connections>
+                        <outlet property="captureView" destination="naQ-h3-K28" id="eIc-p0-ncI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3vn-Pa-N9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1233" y="-153"/>
+            <point key="canvasLocation" x="1230.4347826086957" y="-153.34821428571428"/>
         </scene>
     </scenes>
 </document>

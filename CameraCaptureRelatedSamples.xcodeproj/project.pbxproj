@@ -13,6 +13,8 @@
 		DBDBCFF322A8115500C68DCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDBCFF222A8115500C68DCE /* Assets.xcassets */; };
 		DBDBCFF622A8115500C68DCE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBDBCFF422A8115500C68DCE /* LaunchScreen.storyboard */; };
 		DBDBD00122A8115600C68DCE /* CameraCaptureRelatedSamplesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00022A8115600C68DCE /* CameraCaptureRelatedSamplesTests.swift */; };
+		DBDBD00C22A8142200C68DCE /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00B22A8142200C68DCE /* CameraPreviewView.swift */; };
+		DBDBD00E22A814AA00C68DCE /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00D22A814AA00C68DCE /* CameraCaptureView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		DBDBCFFC22A8115600C68DCE /* CameraCaptureRelatedSamplesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CameraCaptureRelatedSamplesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDBD00022A8115600C68DCE /* CameraCaptureRelatedSamplesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureRelatedSamplesTests.swift; sourceTree = "<group>"; };
 		DBDBD00222A8115600C68DCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DBDBD00B22A8142200C68DCE /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		DBDBD00D22A814AA00C68DCE /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				DBDBCFF222A8115500C68DCE /* Assets.xcassets */,
 				DBDBCFF422A8115500C68DCE /* LaunchScreen.storyboard */,
 				DBDBCFF722A8115500C68DCE /* Info.plist */,
+				DBDBD00B22A8142200C68DCE /* CameraPreviewView.swift */,
+				DBDBD00D22A814AA00C68DCE /* CameraCaptureView.swift */,
 			);
 			path = CameraCaptureRelatedSamples;
 			sourceTree = "<group>";
@@ -199,6 +205,8 @@
 			files = (
 				DBDBCFEE22A8115400C68DCE /* DeeplabV3ViewController.swift in Sources */,
 				DBDBCFEC22A8115400C68DCE /* AppDelegate.swift in Sources */,
+				DBDBD00E22A814AA00C68DCE /* CameraCaptureView.swift in Sources */,
+				DBDBD00C22A8142200C68DCE /* CameraPreviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
