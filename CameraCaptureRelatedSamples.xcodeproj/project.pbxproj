@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DBDBCFEC22A8115400C68DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */; };
-		DBDBCFEE22A8115400C68DCE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBCFED22A8115400C68DCE /* ViewController.swift */; };
+		DBDBCFEE22A8115400C68DCE /* DeeplabV3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */; };
 		DBDBCFF122A8115400C68DCE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBDBCFEF22A8115400C68DCE /* Main.storyboard */; };
 		DBDBCFF322A8115500C68DCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDBCFF222A8115500C68DCE /* Assets.xcassets */; };
 		DBDBCFF622A8115500C68DCE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBDBCFF422A8115500C68DCE /* LaunchScreen.storyboard */; };
@@ -28,7 +28,7 @@
 /* Begin PBXFileReference section */
 		DBDBCFE822A8115400C68DCE /* CameraCaptureRelatedSamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraCaptureRelatedSamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DBDBCFED22A8115400C68DCE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplabV3ViewController.swift; sourceTree = "<group>"; };
 		DBDBCFF022A8115400C68DCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DBDBCFF222A8115500C68DCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBDBCFF522A8115500C68DCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */,
-				DBDBCFED22A8115400C68DCE /* ViewController.swift */,
+				DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */,
 				DBDBCFEF22A8115400C68DCE /* Main.storyboard */,
 				DBDBCFF222A8115500C68DCE /* Assets.xcassets */,
 				DBDBCFF422A8115500C68DCE /* LaunchScreen.storyboard */,
@@ -197,7 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBDBCFEE22A8115400C68DCE /* ViewController.swift in Sources */,
+				DBDBCFEE22A8115400C68DCE /* DeeplabV3ViewController.swift in Sources */,
 				DBDBCFEC22A8115400C68DCE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
