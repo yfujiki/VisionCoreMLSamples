@@ -28,7 +28,21 @@ class CameraCaptureView: UIView {
         return view
     }()
 
-    private let sessionQueue = DispatchQueue(label: "com.yfujiki.cameracapturerelatedsamples-queue")
+    private let sessionQueue = DispatchQueue(label: "com.yfujiki.cameracapturerelatedsamples-sessionqueue")
+    private let videoOutputQueue = DispatchQueue(label: "com.yfujiki.cameracapturerelatedsamples-videooutputqueue")
+
+    private lazy var captureInput: AVCaptureInput? = {
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
+            return nil
+        }
+
+        return try? AVCaptureDeviceInput(device: videoDevice)
+    }()
+
+    private lazy var videoOutput: AVCaptureVideoDataOutput = {
+        let output = AVCaptureVideoDataOutput()
+        return output
+    }()
 
     func prepareCapture() {
         cameraPreviewView.session = session
@@ -47,6 +61,25 @@ class CameraCaptureView: UIView {
         }
     }
 
+    private func prepareCaptureSession() {
+        session.beginConfiguration()
+        session.sessionPreset = .photo
+
+        guard let captureInput = captureInput else {
+            return
+        }
+
+        if session.canAddInput(captureInput) {
+            session.addInput(captureInput)
+        }
+
+        if session.canAddOutput(videoOutput) {
+            session.addOutput(videoOutput)
+        }
+
+        session.commitConfiguration()
+    }
+
     func startCapture() {
         session.startRunning()
     }
@@ -55,24 +88,7 @@ class CameraCaptureView: UIView {
         session.stopRunning()
     }
 
-    private func prepareCaptureSession() {
-        session.beginConfiguration()
-        session.sessionPreset = .photo
-
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
-            return
-        }
-
-        do {
-            let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-
-            if session.canAddInput(videoDeviceInput) {
-                session.addInput(videoDeviceInput)
-            }
-        } catch (let error) {
-            print("Failed with \(error)")
-        }
-
-        session.commitConfiguration()
+    func setBufferDelegate(delegate: AVCaptureVideoDataOutputSampleBufferDelegate) {
+        videoOutput.setSampleBufferDelegate(delegate, queue: videoOutputQueue)
     }
 }
