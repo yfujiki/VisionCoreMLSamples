@@ -15,7 +15,7 @@ class CameraCaptureView: UIView {
 
     private lazy var cameraPreviewView: CameraPreviewView = {
         let view = CameraPreviewView()
-        self.addSubview(view)
+        self.insertSubview(view, at: 0)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
