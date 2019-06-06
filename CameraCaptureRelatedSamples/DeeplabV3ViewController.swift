@@ -25,8 +25,15 @@ class DeeplabV3ViewController: UIViewController {
         }
 
         let request = VNCoreMLRequest(model: visionModel) { (vnRequest, error) in
-            if let results = vnRequest.results as? [VNCoreMLFeatureValueObservation]{
-                print("Results \(results)")
+            if let results = vnRequest.results as? [VNCoreMLFeatureValueObservation],
+               let bestResult = results.first,
+               let data = bestResult.featureValue.multiArrayValue {
+                let count = data.count
+                let resultPtr = UnsafeMutablePointer<Int32>(OpaquePointer(data.dataPointer))
+                for i in 0..<count {
+                    print(resultPtr[i])
+                }
+                print("\n")
             }
         }
         request.imageCropAndScaleOption = .centerCrop
