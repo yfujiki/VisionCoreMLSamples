@@ -15,6 +15,7 @@
 		DBDBD00122A8115600C68DCE /* CameraCaptureRelatedSamplesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00022A8115600C68DCE /* CameraCaptureRelatedSamplesTests.swift */; };
 		DBDBD00C22A8142200C68DCE /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00B22A8142200C68DCE /* CameraPreviewView.swift */; };
 		DBDBD00E22A814AA00C68DCE /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00D22A814AA00C68DCE /* CameraCaptureView.swift */; };
+		DBDBD01022A8AF8400C68DCE /* DeepLabV3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = DBDBD00F22A8AF8400C68DCE /* DeepLabV3.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		DBDBD00222A8115600C68DCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDBD00B22A8142200C68DCE /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		DBDBD00D22A814AA00C68DCE /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
+		DBDBD00F22A8AF8400C68DCE /* DeepLabV3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DeepLabV3.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		DBDBCFEA22A8115400C68DCE /* CameraCaptureRelatedSamples */ = {
 			isa = PBXGroup;
 			children = (
+				DBDBD00F22A8AF8400C68DCE /* DeepLabV3.mlmodel */,
 				DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */,
 				DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */,
 				DBDBCFEF22A8115400C68DCE /* Main.storyboard */,
@@ -206,6 +209,7 @@
 				DBDBCFEE22A8115400C68DCE /* DeeplabV3ViewController.swift in Sources */,
 				DBDBCFEC22A8115400C68DCE /* AppDelegate.swift in Sources */,
 				DBDBD00E22A814AA00C68DCE /* CameraCaptureView.swift in Sources */,
+				DBDBD01022A8AF8400C68DCE /* DeepLabV3.mlmodel in Sources */,
 				DBDBD00C22A8142200C68DCE /* CameraPreviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
