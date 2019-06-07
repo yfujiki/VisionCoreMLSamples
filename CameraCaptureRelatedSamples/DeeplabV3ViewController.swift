@@ -14,9 +14,27 @@ import CoreFoundation
 
 class DeeplabV3ViewController: UIViewController {
 
-    @IBOutlet weak var captureView: CameraCaptureView!
-
     @IBOutlet weak var imageView: UIImageView!
+
+    private lazy var cameraPreviewView: CameraPreviewView = {
+        let previewView = CameraPreviewView()
+
+        view.insertSubview(previewView, at: 0)
+
+        previewView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            previewView.topAnchor.constraint(equalTo: view.topAnchor),
+            previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+
+        return previewView
+    }()
+
+    private lazy var cameraCapture: CameraCapture = {
+        CameraCapture()
+    }()
 
     private lazy var visionModel: VNCoreMLModel? = {
         let model = try? VNCoreMLModel(for: DeepLabV3().model)
@@ -40,38 +58,26 @@ class DeeplabV3ViewController: UIViewController {
         return request
     }()
 
-    private lazy var overlayLayer: AVSampleBufferDisplayLayer = {
-        let layer = AVSampleBufferDisplayLayer()
-        let size = CGSize(width: 513 / UIScreen.main.scale, height: 513 / UIScreen.main.scale)
-        let originX = (self.view.frame.size.width - 513 / UIScreen.main.scale) / 2
-        let originY = (self.view.frame.size.height - 513 / UIScreen.main.scale) / 2
-
-        layer.frame = CGRect(x: originX, y: originY, width: size.width, height: size.height)
-
-        self.captureView.layer.addSublayer(layer)
-//        self.view.layer.addSublayer(layer)
-
-        return layer
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        captureView.setBufferDelegate(delegate: self)
-        captureView.prepareCapture()
-        captureView.startCapture()
+        cameraCapture.setBufferDelegate(delegate: self)
+        cameraCapture.prepareCapture()
+        cameraCapture.startCapture()
+
+        _ = cameraPreviewView
     }
 
     deinit {
-        captureView.endCapture()
+        cameraCapture.endCapture()
     }
 
-    private func showDataAsOverlay(_ data: MLMultiArray) {
-        let width = data.strides.first!.intValue
-        let height = data.count / width
-        let resultPtr = UnsafeMutablePointer<Int32>(OpaquePointer(data.dataPointer))
-        var data = [UInt8]()
+    private func showDataAsOverlay(_ array: MLMultiArray) {
+        let width = array.strides.first!.intValue
+        let height = array.count / width
 
+        let resultPtr = UnsafeMutablePointer<Int32>(OpaquePointer(array.dataPointer))
+        var data = [UInt8]()
 
         for i in 0..<width {
             for j in 0..<height {
@@ -82,112 +88,16 @@ class DeeplabV3ViewController: UIViewController {
             }
         }
 
-        // Replace resultPtr
-//        let count = 4
-//        let bytesPointer = UnsafeMutableRawPointer.allocate(
-//            byteCount: count * MemoryLayout<UInt8>.stride,
-//            alignment: MemoryLayout<UInt8>.alignment
-//        )
-//
-//        var values: [UInt8] = [] //[0xCC, 0xAA, 0xBB, 0xFF]
-//        for _ in 0 ..< 513 * 513 {
-//            values.append(0xCC as UInt8)
-//            values.append(0xAA as UInt8)
-//            values.append(0xBB as UInt8)
-//            values.append(0xFF as UInt8)
-//        }
-//
-//        let resultPtr: UnsafeMutablePointer<UInt8> = values.withUnsafeBufferPointer { (buffer: UnsafeBufferPointer<UInt8>) in
-//            return bytesPointer.initializeMemory(
-//                as: UInt8.self,
-//                from: buffer.baseAddress!,
-//                count: buffer.count
-//            )
-//        }
-//         int8Pointer.pointee == 1
-//         (int8Pointer + 3).pointee == 4
-//         After using 'int8Pointer':
-//        resultPtr.deallocate()
-        // == Till Here ==
-
-//        let pxBuffer = UnsafeMutablePointer<CVPixelBuffer?>.allocate(capacity: 1)
-//
-//        CVPixelBufferCreateWithBytes(
-//            kCFAllocatorDefault,
-//            513,
-//            513,
-//            kCVPixelFormatType_32ARGB,
-//            resultPtr2,
-//            513 * 4,
-//            nil,
-//            nil,
-//            nil, //[kCVPixelBufferIOSurfacePropertiesKey: [:]] as CFDictionary,
-//            pxBuffer
-//        )
-//
-//        guard let cvPixelBuffer = pxBuffer.pointee else {
-//            return
-//        }
-//        // Show pxBuffer onto the screen
-//
-//        let ciImage = CIImage(cvImageBuffer: cvPixelBuffer)
-//        let uiImage = UIImage(ciImage: ciImage)
-
-
-        let cgImage = RGBAImage(data: data, width: 513, height: 513)!
-        let uiImage = UIImage(cgImage: cgImage)
-//        let uiImage = RGBAImage()
-        DispatchQueue.main.async { [unowned self] in
-            self.imageView.image = uiImage
+        guard let cgImage = RGBAImageViaCGImage(data: data, width: width, height: height) else {
+            return
         }
 
-//        var formatDesc: CMFormatDescription? = nil
-//        CMVideoFormatDescriptionCreateForImageBuffer(
-//            allocator: kCFAllocatorDefault,
-//            imageBuffer: cvPixelBuffer,
-//            formatDescriptionOut: &formatDesc)
-//
-//        var sampleBuffer: CMSampleBuffer? = nil
-//
-//        var info = CMSampleTimingInfo()
-//        info.presentationTimeStamp = .zero
-//        info.duration = .invalid
-//        info.decodeTimeStamp = .invalid
-//
-//        CMSampleBufferCreateReadyWithImageBuffer(
-//            allocator: kCFAllocatorDefault,
-//            imageBuffer: cvPixelBuffer,
-//            formatDescription: formatDesc!,
-//            sampleTiming: &info,
-//            sampleBufferOut: &sampleBuffer);
-//
-//        guard let videoBuffer = sampleBuffer else {
-//            return
-//        }
-//
-//        overlayLayer.enqueue(videoBuffer)
-
-//        pxBuffer.deallocate()
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = UIImage(cgImage: cgImage, scale: UIScreen.main.scale, orientation: .leftMirrored)
+        }
     }
 
-//    func RGBAImage() -> UIImage? {
-//        var data = [UInt8]()
-//
-//        for i in 0..<513 * 513 {
-//            data.append(UInt8(0))
-//            data.append(UInt8(255))
-//            data.append(UInt8(0))
-//            data.append(UInt8(sin(Double(i) * 0.00001 * .pi) * 127 + 127))
-//        }
-//
-//        guard let cgImage = RGBAImage(data: data, width: 513, height: 513) else {
-//            return nil
-//        }
-//
-//        return UIImage(cgImage: cgImage)
-//    }
-
-    func RGBAImage(data: [UInt8], width: Int, height: Int) -> CGImage? {
+    func RGBAImageViaCGImage(data: [UInt8], width: Int, height: Int) -> CGImage? {
 
         let bitsPerComponent = 8
         let numberOfComponents = 4
@@ -218,6 +128,7 @@ extension DeeplabV3ViewController: AVCaptureVideoDataOutputSampleBufferDelegate 
         guard let cvImage = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
+        cameraPreviewView.syncedCurrentBuffer = cvImage
 
         let handler = VNImageRequestHandler(cvPixelBuffer: cvImage)
 

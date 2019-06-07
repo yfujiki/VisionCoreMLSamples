@@ -41,6 +41,10 @@ class PreviewViewController: UIViewController {
 
         _ = cameraPreviewView
     }
+
+    deinit {
+        cameraCapture.endCapture()
+    }
 }
 
 extension PreviewViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
