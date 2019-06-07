@@ -46,6 +46,6 @@ class PreviewViewController: UIViewController {
 extension PreviewViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from: AVCaptureConnection) {
         let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-        cameraPreviewView.currentBuffer = imageBuffer
+        cameraPreviewView.syncedCurrentBuffer = imageBuffer
     }
 }

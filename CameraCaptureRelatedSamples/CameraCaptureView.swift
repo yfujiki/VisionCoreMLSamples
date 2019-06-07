@@ -13,26 +13,11 @@ class CameraCaptureView: UIView {
 
     let session = AVCaptureSession()
 
-    private lazy var cameraPreviewView: CameraPreviewView = {
-        let view = CameraPreviewView()
-        self.insertSubview(view, at: 0)
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            view.topAnchor.constraint(equalTo: self.topAnchor),
-            view.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-
-        return view
-    }()
-
     private let sessionQueue = DispatchQueue(label: "com.yfujiki.cameracapturerelatedsamples-sessionqueue")
     private let videoOutputQueue = DispatchQueue(label: "com.yfujiki.cameracapturerelatedsamples-videooutputqueue")
 
     private lazy var captureInput: AVCaptureInput? = {
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
             return nil
         }
 
@@ -45,8 +30,6 @@ class CameraCaptureView: UIView {
     }()
 
     func prepareCapture() {
-        cameraPreviewView.session = session
-
         sessionQueue.suspend()
         AVCaptureDevice.requestAccess(for: .video) { success in
             if !success {

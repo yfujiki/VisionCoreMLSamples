@@ -27,6 +27,8 @@ class CameraCapture {
 
     private lazy var videoOutput: AVCaptureVideoDataOutput = {
         let output = AVCaptureVideoDataOutput()
+        // This is a key when we capture output in MTL seems to accept only BGRA
+        output.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
         return output
     }()
 
