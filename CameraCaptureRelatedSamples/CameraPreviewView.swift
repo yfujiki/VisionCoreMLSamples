@@ -11,7 +11,24 @@ import UIKit
 import MetalKit
 
 class CameraPreviewView: MTKView {
-    var currentBuffer: CVPixelBuffer?
+    private let syncQueue = DispatchQueue(label: "Preview View Sync Queue", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
+
+    private var currentBuffer: CVPixelBuffer?
+
+    var syncedCurrentBuffer: CVPixelBuffer? {
+        get {
+            var ret: CVPixelBuffer?
+            syncQueue.sync {
+                ret = self.currentBuffer
+            }
+            return ret
+        }
+        set {
+            syncQueue.sync {
+                self.currentBuffer = newValue
+            }
+        }
+    }
 
     private var textureCache: CVMetalTextureCache?
 
@@ -33,7 +50,6 @@ class CameraPreviewView: MTKView {
         CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device!, nil, &textureCache)
 
         self.framebufferOnly = false
-//        self.delegate = self
     }
 
     private func metalTextureFromImageBuffer(_ pixelBuffer: CVPixelBuffer) -> MTLTexture? {
@@ -61,7 +77,7 @@ class CameraPreviewView: MTKView {
     }
 
     private func currentTexture() -> MTLTexture? {
-        guard let pixelBuffer = currentBuffer else { return nil }
+        guard let pixelBuffer = syncedCurrentBuffer else { return nil }
 
         return metalTextureFromImageBuffer(pixelBuffer)
     }
@@ -77,6 +93,9 @@ class CameraPreviewView: MTKView {
         let w = min(drawable.texture.width, texture.width)
         let h = min(drawable.texture.height, texture.height)
 
+        let offsetX = (drawable.texture.width - texture.width) / 2
+        let offsetY = (drawable.texture.height - texture.height) / 2
+
         let blitEncoder = commandBuffer.makeBlitCommandEncoder()!
         blitEncoder.copy(from: texture,
                          sourceSlice: 0,
@@ -86,40 +105,10 @@ class CameraPreviewView: MTKView {
                          to: drawable.texture,
                          destinationSlice: 0,
                          destinationLevel: 0,
-                         destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
+                         destinationOrigin: MTLOrigin(x: offsetX, y: offsetY, z: 0))
         blitEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
     }
 }
 
-//extension CameraPreviewView: MTKViewDelegate {
-//    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-//    }
-//
-//    func draw(in view: MTKView) {
-//        guard let drawable = view.currentDrawable else { return }
-//        guard let device = device else { return }
-//        guard let texture = currentTexture() else { return }
-//
-//        let commandQueue = device.makeCommandQueue()
-//        let commandBuffer = commandQueue!.makeCommandBuffer()!
-//
-//        let w = min(drawable.texture.width, texture.width)
-//        let h = min(drawable.texture.height, texture.height)
-//
-//        let blitEncoder = commandBuffer.makeBlitCommandEncoder()!
-//        blitEncoder.copy(from: texture,
-//                         sourceSlice: 0,
-//                         sourceLevel: 0,
-//                         sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0),
-//                         sourceSize: MTLSizeMake(w, h, texture.depth),
-//                         to: drawable.texture,
-//                         destinationSlice: 0,
-//                         destinationLevel: 0,
-//                         destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
-//        blitEncoder.endEncoding()
-//        commandBuffer.present(drawable)
-//        commandBuffer.commit()
-//    }
-//}
