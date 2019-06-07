@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB8328BC22AA140D00FA57EB /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8328BB22AA140D00FA57EB /* PreviewViewController.swift */; };
+		DB8328BE22AA1AE900FA57EB /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8328BD22AA1AE900FA57EB /* CameraCapture.swift */; };
 		DBDBCFEC22A8115400C68DCE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */; };
 		DBDBCFEE22A8115400C68DCE /* DeeplabV3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */; };
 		DBDBCFF122A8115400C68DCE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DBDBCFEF22A8115400C68DCE /* Main.storyboard */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB8328BB22AA140D00FA57EB /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		DB8328BD22AA1AE900FA57EB /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		DBDBCFE822A8115400C68DCE /* CameraCaptureRelatedSamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraCaptureRelatedSamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplabV3ViewController.swift; sourceTree = "<group>"; };
@@ -86,12 +90,14 @@
 				DBDBD00F22A8AF8400C68DCE /* DeepLabV3.mlmodel */,
 				DBDBCFEB22A8115400C68DCE /* AppDelegate.swift */,
 				DBDBCFED22A8115400C68DCE /* DeeplabV3ViewController.swift */,
+				DB8328BB22AA140D00FA57EB /* PreviewViewController.swift */,
 				DBDBCFEF22A8115400C68DCE /* Main.storyboard */,
 				DBDBCFF222A8115500C68DCE /* Assets.xcassets */,
 				DBDBCFF422A8115500C68DCE /* LaunchScreen.storyboard */,
 				DBDBCFF722A8115500C68DCE /* Info.plist */,
 				DBDBD00B22A8142200C68DCE /* CameraPreviewView.swift */,
 				DBDBD00D22A814AA00C68DCE /* CameraCaptureView.swift */,
+				DB8328BD22AA1AE900FA57EB /* CameraCapture.swift */,
 			);
 			path = CameraCaptureRelatedSamples;
 			sourceTree = "<group>";
@@ -206,11 +212,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB8328BE22AA1AE900FA57EB /* CameraCapture.swift in Sources */,
 				DBDBCFEE22A8115400C68DCE /* DeeplabV3ViewController.swift in Sources */,
 				DBDBCFEC22A8115400C68DCE /* AppDelegate.swift in Sources */,
 				DBDBD00E22A814AA00C68DCE /* CameraCaptureView.swift in Sources */,
 				DBDBD01022A8AF8400C68DCE /* DeepLabV3.mlmodel in Sources */,
 				DBDBD00C22A8142200C68DCE /* CameraPreviewView.swift in Sources */,
+				DB8328BC22AA140D00FA57EB /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
