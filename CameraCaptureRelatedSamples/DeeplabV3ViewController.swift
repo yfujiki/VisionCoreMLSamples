@@ -14,8 +14,6 @@ import CoreFoundation
 
 class DeeplabV3ViewController: UIViewController {
 
-    @IBOutlet weak var imageView: UIImageView!
-
     private lazy var cameraPreviewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
 
@@ -58,6 +56,8 @@ class DeeplabV3ViewController: UIViewController {
         return request
     }()
 
+    private var currentPreviewBuffer: CVPixelBuffer?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -73,28 +73,64 @@ class DeeplabV3ViewController: UIViewController {
     }
 
     private func showDataAsOverlay(_ array: MLMultiArray) {
-        let width = array.strides.first!.intValue
-        let height = array.count / width
-
-        let resultPtr = UnsafeMutablePointer<Int32>(OpaquePointer(array.dataPointer))
-        var data = [UInt8]()
-
-        for i in 0..<width {
-            for j in 0..<height {
-                data.append(UInt8(255))
-                data.append(UInt8(0))
-                data.append(UInt8(0))
-                data.append(UInt8(resultPtr[i + j * width]))
-            }
-        }
-
-        guard let cgImage = RGBAImageViaCGImage(data: data, width: width, height: height) else {
+        guard let previewBuffer = currentPreviewBuffer else {
             return
         }
 
-        DispatchQueue.main.async { [weak self] in
-            self?.imageView.image = UIImage(cgImage: cgImage, scale: UIScreen.main.scale, orientation: .leftMirrored)
+        let bytesPerPixel = 4
+        CVPixelBufferLockBaseAddress(previewBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        let bufferWidth = Int(CVPixelBufferGetWidth(previewBuffer))
+        let bufferHeight = Int(CVPixelBufferGetHeight(previewBuffer))
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(previewBuffer)
+
+        guard let baseAddress = CVPixelBufferGetBaseAddress(previewBuffer) else {
+                return
         }
+
+        let maskWidth = array.strides.first!.intValue
+        let maskHeight = array.count / maskWidth
+
+        let maskPtr = UnsafeMutablePointer<Int32>(OpaquePointer(array.dataPointer))
+
+        let widthRatio = Float(bufferWidth) / Float(maskWidth)
+        let heightRatio = Float(bufferHeight) / Float(maskHeight)
+        let ratio = min(widthRatio, heightRatio)
+
+        let stretchedWidth = Int(Float(maskWidth) * ratio)
+        let stretchedHeight = Int(Float(maskHeight) * ratio)
+
+        let offsetX = (bufferWidth - stretchedWidth) / 2
+        let offsetY = (bufferHeight - stretchedHeight) / 2
+
+        for row in 0..<bufferHeight {
+            var pixel = baseAddress + row * bytesPerRow
+            for col in 0..<bufferWidth {
+                let i = col - offsetX
+                let j = row - offsetY
+
+                if (i >= 0 && i < stretchedWidth) && (j >= 0 && j < stretchedHeight) {
+                    let index = Int(Float(i) / ratio) + Int(Float(j) / ratio) * maskWidth
+                    let value = maskPtr[index]
+                    if value > 10 {
+                        let blue = pixel
+                        blue.storeBytes(of: 255, as: UInt8.self)
+
+                        let red = pixel + 1
+                        red.storeBytes(of: 255, as: UInt8.self)
+
+                        let green = pixel + 2
+                        green.storeBytes(of: 255, as: UInt8.self)
+                    }
+//                    let alpha = pixel + 3
+//                    alpha.storeBytes(of: value, as: UInt8.self)
+                }
+                pixel += bytesPerPixel;
+            }
+        }
+
+        CVPixelBufferUnlockBaseAddress(previewBuffer, CVPixelBufferLockFlags(rawValue: 0));
+
+        cameraPreviewView.syncedCurrentBuffer = previewBuffer
     }
 
     func RGBAImageViaCGImage(data: [UInt8], width: Int, height: Int) -> CGImage? {
@@ -125,12 +161,13 @@ class DeeplabV3ViewController: UIViewController {
 
 extension DeeplabV3ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from: AVCaptureConnection) {
-        guard let cvImage = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+        guard let cvImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        cameraPreviewView.syncedCurrentBuffer = cvImage
 
-        let handler = VNImageRequestHandler(cvPixelBuffer: cvImage)
+        currentPreviewBuffer = cvImageBuffer
+
+        let handler = VNImageRequestHandler(cvPixelBuffer: cvImageBuffer)
 
         guard let request = visionModelRequest else {
             return
