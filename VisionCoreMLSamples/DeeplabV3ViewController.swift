@@ -35,8 +35,8 @@ class DeeplabV3ViewController: UIViewController {
     }()
 
     private lazy var visionModel: VNCoreMLModel? = {
-//        let model = try? VNCoreMLModel(for: DeepLabV3().model)
-//        let model = try? VNCoreMLModel(for: DeepLabV3FP16().model)
+//        let model = try? VNCoreMLModel(for: DeepLabV3().model)     // Not included in the repo. Please download from https://developer.apple.com/machine-learning/models/ to use
+//        let model = try? VNCoreMLModel(for: DeepLabV3FP16().model) // Not included in the repo. Please download from https://developer.apple.com/machine-learning/models/ to use
         let model = try? VNCoreMLModel(for: DeepLabV3Int8LUT().model)
         return model
     }()
