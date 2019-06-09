@@ -12,66 +12,40 @@ import Vision
 import CoreVideo
 import CoreFoundation
 
-class DeeplabV3ViewController: UIViewController {
+class DeeplabV3ViewController: ViewController, VisionCoreMLProtocol {
 
-    private lazy var cameraPreviewView: CameraPreviewView = {
-        let previewView = CameraPreviewView()
+    var currentPreviewBuffer: CVPixelBuffer?
 
-        view.insertSubview(previewView, at: 0)
+    private var _visionModel: VNCoreMLModel?
+    private var _visionModelRequest: VNCoreMLRequest?
 
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            previewView.topAnchor.constraint(equalTo: view.topAnchor),
-            previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-
-        return previewView
-    }()
-
-    private lazy var cameraCapture: CameraCapture = {
-        CameraCapture()
-    }()
-
-    private lazy var visionModel: VNCoreMLModel? = {
-//        let model = try? VNCoreMLModel(for: DeepLabV3().model)     // Not included in the repo. Please download from https://developer.apple.com/machine-learning/models/ to use
-//        let model = try? VNCoreMLModel(for: DeepLabV3FP16().model) // Not included in the repo. Please download from https://developer.apple.com/machine-learning/models/ to use
-        let model = try? VNCoreMLModel(for: DeepLabV3Int8LUT().model)
-        return model
-    }()
-
-    private lazy var visionModelRequest: VNCoreMLRequest? = {
-        guard let visionModel = visionModel else {
-            return nil
+    func visionModel() -> VNCoreMLModel? {
+        if _visionModel == nil {
+            //  _visionModel = try? VNCoreMLModel(for: DeepLabV3().model)     // Not included in the repo. Please download from https://developer.apple.com/machine-learning/models/ to use
+            //  _visionModel = try? VNCoreMLModel(for: DeepLabV3FP16().model) // Not included in the repo. Please download from https://developer.apple.com/machine-learning/models/ to use
+            _visionModel = try? VNCoreMLModel(for: DeepLabV3Int8LUT().model)
         }
-
-        let request = VNCoreMLRequest(model: visionModel) { [weak self] (vnRequest, error) in
-            if let results = vnRequest.results as? [VNCoreMLFeatureValueObservation],
-               let bestResult = results.first,
-               let data = bestResult.featureValue.multiArrayValue {
-                self?.showDataAsOverlay(data)
-            }
-        }
-        request.imageCropAndScaleOption = .centerCrop
-
-        return request
-    }()
-
-    private var currentPreviewBuffer: CVPixelBuffer?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        cameraCapture.setBufferDelegate(delegate: self)
-        cameraCapture.prepareCapture()
-        cameraCapture.startCapture()
-
-        _ = cameraPreviewView
+        return _visionModel
     }
 
-    deinit {
-        cameraCapture.endCapture()
+    func visionModelRequest() -> VNCoreMLRequest? {
+        if _visionModelRequest == nil {
+            guard let visionModel = visionModel() else {
+                return nil
+            }
+
+            let request = VNCoreMLRequest(model: visionModel) { [weak self] (vnRequest, error) in
+                if let results = vnRequest.results as? [VNCoreMLFeatureValueObservation],
+                   let bestResult = results.first,
+                   let data = bestResult.featureValue.multiArrayValue {
+                    self?.showDataAsOverlay(data)
+                }
+            }
+            request.imageCropAndScaleOption = .centerCrop
+
+            _visionModelRequest = request
+        }
+        return _visionModelRequest
     }
 
     private func showDataAsOverlay(_ array: MLMultiArray) {
@@ -161,17 +135,16 @@ class DeeplabV3ViewController: UIViewController {
     }
 }
 
-extension DeeplabV3ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from: AVCaptureConnection) {
+extension DeeplabV3ViewController {
+    override func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from: AVCaptureConnection) {
         guard let cvImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-
         currentPreviewBuffer = cvImageBuffer
 
         let handler = VNImageRequestHandler(cvPixelBuffer: cvImageBuffer)
 
-        guard let request = visionModelRequest else {
+        guard let request = visionModelRequest() else {
             return
         }
 
@@ -180,4 +153,3 @@ extension DeeplabV3ViewController: AVCaptureVideoDataOutputSampleBufferDelegate 
         }
     }
 }
-

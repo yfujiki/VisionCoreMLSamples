@@ -89,6 +89,9 @@
                                                 <constraint firstItem="NTL-D0-j9a" firstAttribute="leading" secondItem="yuY-s0-4eH" secondAttribute="leading" constant="20" id="pVd-j6-Cm3"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="JTg-uB-dK8" kind="show" id="Age-tT-3Do"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="R3H-sA-8Va">
                                         <rect key="frame" x="0.0" y="132" width="414" height="44"/>
@@ -146,7 +149,7 @@
         <!--DeeplabV3 View Controller-->
         <scene sceneID="m9j-cs-1xW">
             <objects>
-                <viewController id="v8Y-co-Eja" customClass="DeeplabV3ViewController" customModule="CameraCaptureRelatedSamples" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="v8Y-co-Eja" customClass="DeeplabV3ViewController" customModule="VisionCoreMLSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k8Z-kK-dMC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -161,7 +164,7 @@
         <!--Preview View Controller-->
         <scene sceneID="oXg-5o-KB2">
             <objects>
-                <viewController id="QG0-34-n2H" customClass="PreviewViewController" customModule="CameraCaptureRelatedSamples" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="QG0-34-n2H" customClass="PreviewViewController" customModule="VisionCoreMLSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OOs-8p-fSS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -172,6 +175,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W6n-SK-dHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1144.9275362318842" y="-316.07142857142856"/>
+        </scene>
+        <!--YoloV3 View Controller-->
+        <scene sceneID="iRd-60-6CV">
+            <objects>
+                <viewController id="JTg-uB-dK8" customClass="YoloV3ViewController" customModule="VisionCoreMLSamples" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MDk-TH-xAl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="7Hi-js-cXy"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wfV-tu-hHo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1254" y="1080"/>
         </scene>
     </scenes>
 </document>
