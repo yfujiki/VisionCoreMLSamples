@@ -12,10 +12,6 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
-//    var bufferSize: CGSize {
-//        return cameraCapture.bufferSize
-//    }
-
     lazy var cameraPreviewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
 
