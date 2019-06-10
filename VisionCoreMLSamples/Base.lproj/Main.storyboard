@@ -179,10 +179,10 @@
             </objects>
             <point key="canvasLocation" x="1144.9275362318842" y="-316.07142857142856"/>
         </scene>
-        <!--Tiny YoloV3 View Controller-->
+        <!--YoloV3 View Controller-->
         <scene sceneID="iRd-60-6CV">
             <objects>
-                <viewController id="JTg-uB-dK8" customClass="TinyYoloV3ViewController" customModule="VisionCoreMLSamples" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="JTg-uB-dK8" customClass="YoloV3ViewController" customModule="VisionCoreMLSamples" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MDk-TH-xAl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
