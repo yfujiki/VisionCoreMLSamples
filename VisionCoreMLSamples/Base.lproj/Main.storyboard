@@ -117,6 +117,30 @@
                                             <segue destination="Er9-kB-GoV" kind="show" id="SVK-KC-wRn"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Hvw-WF-u0L">
+                                        <rect key="frame" x="0.0" y="176" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hvw-WF-u0L" id="1WU-gS-JyM">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FCRN - Depth" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cz-uD-YKx">
+                                                    <rect key="frame" x="20" y="11.5" width="107.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4Cz-uD-YKx" secondAttribute="trailing" constant="20" symbolic="YES" id="12e-2J-Il5"/>
+                                                <constraint firstItem="4Cz-uD-YKx" firstAttribute="leading" secondItem="1WU-gS-JyM" secondAttribute="leading" constant="20" id="9mo-M0-TGw"/>
+                                                <constraint firstItem="4Cz-uD-YKx" firstAttribute="centerY" secondItem="1WU-gS-JyM" secondAttribute="centerY" id="QnG-rK-RSv"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="eGr-lE-2M6" kind="show" id="IwP-TF-HAh"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -208,6 +232,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y7z-54-EQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1254" y="1886"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="WpV-6K-PKN">
+            <objects>
+                <viewController id="eGr-lE-2M6" customClass="FCRNViewController" customModule="VisionCoreMLSamples" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Fj-IG-KMT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="XKS-x5-Kio"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p8N-rc-SnJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1254" y="2656"/>
         </scene>
     </scenes>
 </document>
