@@ -63,6 +63,7 @@ class DeeplabV3ViewController: ViewController, VisionCoreMLProtocol {
                 return
         }
 
+        // ToDo : Calculation of the width/height is kind of random. Haven't figured out the definitive way.
         let maskWidth = array.strides.first!.intValue
         let maskHeight = array.count / maskWidth
 
@@ -97,8 +98,6 @@ class DeeplabV3ViewController: ViewController, VisionCoreMLProtocol {
                         let green = pixel + 2
                         green.storeBytes(of: 255, as: UInt8.self)
                     }
-//                    let alpha = pixel + 3
-//                    alpha.storeBytes(of: value, as: UInt8.self)
                 }
                 pixel += bytesPerPixel;
             }

@@ -60,7 +60,7 @@ class FCRNViewController: ViewController {
             return
         }
 
-        print("Count \(array.count), Strides: \(array.strides)")
+        // ToDo : Calculation of the width/height is kind of random. Haven't figured out the definitive way.
         let depthWidth = array.strides[1].intValue
         let depthHeight = array.count / depthWidth
 
@@ -85,7 +85,7 @@ class FCRNViewController: ViewController {
                 if (i >= 0 && i < stretchedWidth) && (j >= 0 && j < stretchedHeight) {
                     let index = Int(Float(i) / ratio) + Int(Float(j) / ratio) * depthWidth
                     let value = UInt8(min(100 * depthPtr[index], 255))
-                    
+
                     let blue = pixel
                     blue.storeBytes(of: 255 - value, as: UInt8.self)
 
