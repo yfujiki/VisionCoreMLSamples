@@ -90,22 +90,25 @@ class CameraPreviewView: MTKView {
         let commandQueue = device.makeCommandQueue()
         let commandBuffer = commandQueue!.makeCommandBuffer()!
 
-        let w = min(drawable.texture.width, texture.width)
-        let h = min(drawable.texture.height, texture.height)
+        let finalWidth = min(drawable.texture.width, texture.width)
+        let finalHeight = min(drawable.texture.height, texture.height)
 
-        let offsetX = (drawable.texture.width - texture.width) / 2
-        let offsetY = (drawable.texture.height - texture.height) / 2
+        let imageOffsetX = (texture.width - finalWidth) / 2
+        let imageOffsetY = (texture.height - finalHeight) / 2
+
+        let screenOffsetX = (drawable.texture.width - finalWidth) / 2
+        let screenOffsetY = (drawable.texture.height - finalHeight) / 2
 
         let blitEncoder = commandBuffer.makeBlitCommandEncoder()!
         blitEncoder.copy(from: texture,
                          sourceSlice: 0,
                          sourceLevel: 0,
-                         sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0),
-                         sourceSize: MTLSizeMake(w, h, texture.depth),
+                         sourceOrigin: MTLOrigin(x: imageOffsetX, y: imageOffsetY, z: 0),
+                         sourceSize: MTLSizeMake(finalWidth, finalHeight, texture.depth),
                          to: drawable.texture,
                          destinationSlice: 0,
                          destinationLevel: 0,
-                         destinationOrigin: MTLOrigin(x: offsetX, y: offsetY, z: 0))
+                         destinationOrigin: MTLOrigin(x: screenOffsetX, y: screenOffsetY, z: 0))
         blitEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
